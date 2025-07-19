@@ -1,5 +1,6 @@
 import React from 'react';
 import { Clock, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -26,11 +27,11 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Features</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#clock" className="hover:text-foreground transition-colors">Live Clock</a></li>
-              <li><a href="#timer" className="hover:text-foreground transition-colors">Timer</a></li>
-              <li><a href="#countdown" className="hover:text-foreground transition-colors">Countdown</a></li>
-              <li><a href="#stopwatch" className="hover:text-foreground transition-colors">Stopwatch</a></li>
-              <li><a href="#fullscreen" className="hover:text-foreground transition-colors">Fullscreen Mode</a></li>
+              <li><Link to="/clock" className="hover:text-foreground transition-colors">Live Clock</Link></li>
+              <li><Link to="/timer" className="hover:text-foreground transition-colors">Timer</Link></li>
+              <li><Link to="/countdown" className="hover:text-foreground transition-colors">Countdown</Link></li>
+              <li><Link to="/stopwatch" className="hover:text-foreground transition-colors">Stopwatch</Link></li>
+              <li><button onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f' }))} className="hover:text-foreground transition-colors text-left">Fullscreen Mode</button></li>
             </ul>
           </div>
 

@@ -10,9 +10,13 @@ interface ClockSettings {
   format24h: boolean;
 }
 
-const StageClock: React.FC = () => {
+interface StageClockProps {
+  initialMode?: 'clock' | 'timer' | 'countdown' | 'stopwatch';
+}
+
+const StageClock: React.FC<StageClockProps> = ({ initialMode = 'clock' }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [activeMode, setActiveMode] = useState<'clock' | 'timer' | 'countdown' | 'stopwatch'>('clock');
+  const [activeMode, setActiveMode] = useState<'clock' | 'timer' | 'countdown' | 'stopwatch'>(initialMode);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settings, setSettings] = useState<ClockSettings>({
     textColor: '#000000',

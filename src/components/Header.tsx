@@ -1,14 +1,28 @@
 import React from 'react';
 import { Clock, Github, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
+  const location = useLocation();
+  
+  const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Brand */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
               <Clock className="w-6 h-6 text-primary-foreground" />
             </div>
@@ -16,14 +30,15 @@ const Header: React.FC = () => {
               <h1 className="text-xl font-bold text-foreground">Online Stage Clock</h1>
               <p className="text-xs text-muted-foreground hidden sm:block">Professional Event Timing Solutions</p>
             </div>
-          </div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#features" className="text-foreground hover:text-primary transition-colors">Features</a>
-            <a href="#blog" className="text-foreground hover:text-primary transition-colors">Blog</a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">About</a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors">Contact</a>
+            <Link to="/clock" className="text-foreground hover:text-primary transition-colors">Clock</Link>
+            <Link to="/timer" className="text-foreground hover:text-primary transition-colors">Timer</Link>
+            <Link to="/countdown" className="text-foreground hover:text-primary transition-colors">Countdown</Link>
+            <Link to="/stopwatch" className="text-foreground hover:text-primary transition-colors">Stopwatch</Link>
+            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">Blog</Link>
           </nav>
 
           {/* Actions */}

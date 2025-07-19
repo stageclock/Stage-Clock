@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Clock, Calendar, User, ArrowRight } from 'lucide-react';
+import AdSense from './AdSense';
 
 interface BlogPost {
   id: number;
@@ -308,6 +309,11 @@ const BlogSection: React.FC = () => {
               </div>
             </Card>
           ))}
+        </div>
+
+        {/* AdSense placement in blog section */}
+        <div className="flex justify-center my-8">
+          <AdSense adSlot="0987654321" />
         </div>
 
         {/* Load More */}

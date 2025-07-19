@@ -1,17 +1,43 @@
 import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StageClock from '@/components/StageClock';
 import BlogSection from '@/components/BlogSection';
+import AdSense from '@/components/AdSense';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Clock, Timer, Calendar, Square, Maximize, Zap, Shield, Globe } from 'lucide-react';
 
 const Index = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Determine the active clock mode based on the current route
+  const getActiveMode = (): 'clock' | 'timer' | 'countdown' | 'stopwatch' => {
+    const path = location.pathname;
+    if (path.includes('/timer')) return 'timer';
+    if (path.includes('/countdown')) return 'countdown';
+    if (path.includes('/stopwatch')) return 'stopwatch';
+    return 'clock';
+  };
+
+  const activeMode = getActiveMode();
+  const isClockRoute = ['/clock', '/timer', '/countdown', '/stopwatch'].includes(location.pathname);
+
   // SEO and page setup
   useEffect(() => {
-    // Update page title and meta description
-    document.title = 'Online Stage Clock - Professional Event Timing Solutions';
+    // Update page title based on current route
+    const titles = {
+      '/': 'Online Stage Clock - Professional Event Timing Solutions',
+      '/clock': 'Live Digital Clock - Online Stage Clock',
+      '/timer': 'Timer - Online Stage Clock',
+      '/countdown': 'Countdown Timer - Online Stage Clock', 
+      '/stopwatch': 'Stopwatch - Online Stage Clock',
+      '/blog': 'Clock & Timing Blog - Online Stage Clock'
+    };
+    
+    document.title = titles[location.pathname as keyof typeof titles] || titles['/'];
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
@@ -57,38 +83,46 @@ const Index = () => {
       <Header />
       
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-br from-background to-secondary/20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-                Professional Stage Clock
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-                The ultimate timing solution for events, performances, and presentations. 
-                Features live clock, timer, countdown, and stopwatch with fullscreen capabilities.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="px-8">
-                  Start Using Now
-                </Button>
-                <Button size="lg" variant="outline" className="px-8">
-                  View Features
-                </Button>
+        {/* Hero Section - Show only on home page */}
+        {location.pathname === '/' && (
+          <section className="py-16 bg-gradient-to-br from-background to-secondary/20">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+                  Professional Stage Clock
+                </h1>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+                  The ultimate timing solution for events, performances, and presentations. 
+                  Features live clock, timer, countdown, and stopwatch with fullscreen capabilities.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="lg" className="px-8" onClick={() => navigate('/clock')}>
+                    Start Using Now
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="px-8"
+                    onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    View Features
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
-        {/* Features Section */}
-        <section id="features" className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-foreground mb-4">Everything You Need for Event Timing</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Professional-grade timing tools designed for stage managers, event organizers, and performers.
-              </p>
-            </div>
+        {/* Features Section - Show only on home page */}
+        {location.pathname === '/' && (
+          <section id="features" className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold text-foreground mb-4">Everything You Need for Event Timing</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Professional-grade timing tools designed for stage managers, event organizers, and performers.
+                </p>
+              </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
               <Card className="p-6 text-center hover:shadow-lg transition-shadow">
@@ -166,36 +200,73 @@ const Index = () => {
                 </p>
               </Card>
             </div>
-          </div>
-        </section>
-
-        {/* Main Clock Application */}
-        <section className="py-8 bg-secondary/10">
-          <div className="container mx-auto px-4">
-            <StageClock />
-          </div>
-        </section>
-
-        {/* Blog Section */}
-        <BlogSection />
-
-        {/* CTA Section */}
-        <section className="py-16 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to Enhance Your Events?</h2>
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Join thousands of event professionals using Online Stage Clock for their timing needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="px-8">
-                Get Started Free
-              </Button>
-              <Button size="lg" variant="outline" className="px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                Learn More
-              </Button>
+            
+            {/* AdSense placement after features */}
+            <div className="flex justify-center mt-12">
+              <AdSense adSlot="1234567890" />
             </div>
           </div>
         </section>
+        )}
+
+        {/* Main Clock Application - Show only on clock routes */}
+        {isClockRoute && (
+          <section className="min-h-[calc(100vh-8rem)] py-8 bg-secondary/10">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-8">
+                <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+                  {activeMode === 'clock' && 'Live Digital Clock'}
+                  {activeMode === 'timer' && 'Timer'}
+                  {activeMode === 'countdown' && 'Countdown Timer'}
+                  {activeMode === 'stopwatch' && 'Stopwatch'}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-6">
+                  {activeMode === 'clock' && 'High-precision digital clock with customizable display options'}
+                  {activeMode === 'timer' && 'Set precise countdown timers for presentations and timed segments'}
+                  {activeMode === 'countdown' && 'Count down to specific dates and times for special events'}
+                  {activeMode === 'stopwatch' && 'Accurate stopwatch for timing performances and activities'}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Press <kbd className="px-2 py-1 bg-muted rounded">F</kbd> for fullscreen mode
+                </p>
+              </div>
+              <StageClock initialMode={activeMode} />
+              
+              {/* AdSense in clock pages */}
+              <div className="flex justify-center mt-8">
+                <AdSense adSlot="1111111111" />
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Blog Section - Show only on blog route or home */}
+        {(location.pathname === '/' || location.pathname === '/blog') && <BlogSection />}
+
+        {/* CTA Section - Show only on home page */}
+        {location.pathname === '/' && (
+          <section className="py-16 bg-primary text-primary-foreground">
+            <div className="container mx-auto px-4 text-center">
+              <h2 className="text-3xl font-bold mb-4">Ready to Enhance Your Events?</h2>
+              <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
+                Join thousands of event professionals using Online Stage Clock for their timing needs.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" variant="secondary" className="px-8" onClick={() => navigate('/clock')}>
+                  Get Started Free
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                  onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Learn More
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer />
