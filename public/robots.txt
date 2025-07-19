@@ -1,14 +1,31 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://online-stage-clock.com/sitemap.xml
+
+# Additional directives for better SEO
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: Twitterbot
-Allow: /
-
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: Twitterbot
 Allow: /
+
+# Disallow admin areas (if any)
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+
+# Allow all timing-related content
+User-agent: *
+Allow: /clock/
+Allow: /timer/
+Allow: /countdown/
+Allow: /stopwatch/
+Allow: /blog/
