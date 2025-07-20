@@ -38,8 +38,8 @@ const StageClock: React.FC<StageClockProps> = ({ initialMode = 'clock' }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [clockSettings, setClockSettings] = useState<ClockSettings>({
-    textColor: '#00ff00',
-    backgroundColor: '#000000',
+    textColor: '#ffffff',
+    backgroundColor: '#1a1a1a',
     fontSize: 120,
     is24Hour: true,
     fontFamily: 'font-mono',
