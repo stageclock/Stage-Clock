@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Clock, Calendar, User, ArrowRight } from 'lucide-react';
 import AdSense from './AdSense';
@@ -301,9 +302,12 @@ const BlogSection: React.FC = () => {
 
                 {/* Read More */}
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-                  <span className="text-sm font-medium text-primary group-hover:text-primary/80 transition-colors">
+                  <Link 
+                    to={`/blog/${post.id}`}
+                    className="text-sm font-medium text-primary group-hover:text-primary/80 transition-colors"
+                  >
                     Read Article
-                  </span>
+                  </Link>
                   <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>

@@ -1,9 +1,13 @@
-import React from 'react';
-import { Clock, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import React, { useState } from 'react';
+import { Clock, Github, Twitter, Linkedin, Mail, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import TimeZoneSelector from './TimeZoneSelector';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [isTimezoneModalOpen, setIsTimezoneModalOpen] = useState(false);
+  const [selectedTimezone, setSelectedTimezone] = useState('America/New_York');
 
   return (
     <footer className="bg-secondary/50 border-t border-border mt-auto">
@@ -89,22 +93,42 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-xs text-muted-foreground">
-            © {currentYear} Online Stage Clock. All rights reserved.
-          </p>
-          <div className="flex space-x-4 mt-4 sm:mt-0">
-            <a href="#terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Terms of Service
-            </a>
-            <a href="#privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#cookies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Cookie Policy
-            </a>
+        <div className="border-t border-border mt-8 pt-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-4">
+              <p className="text-xs text-muted-foreground">
+                © {currentYear} Online Stage Clock. All rights reserved.
+              </p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsTimezoneModalOpen(true)}
+                className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground"
+              >
+                <Globe className="w-3 h-3" />
+                Change Time Zone
+              </Button>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Terms of Service
+              </a>
+              <a href="#privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#cookies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Cookie Policy
+              </a>
+            </div>
           </div>
         </div>
+
+        <TimeZoneSelector
+          isOpen={isTimezoneModalOpen}
+          onClose={() => setIsTimezoneModalOpen(false)}
+          selectedTimezone={selectedTimezone}
+          onTimezoneChange={setSelectedTimezone}
+        />
       </div>
     </footer>
   );
